@@ -1,0 +1,56 @@
+<odoo>
+
+<template id="products_item_inherit_gravity" inherit_id="website_sale.products_item">
+    <xpath expr="//div[@class='product_price mb-1']" position="replace">
+        <div class="product_price mb-1" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
+            <span t-if="product.discount_percentage &gt; 0" style="white-space: nowrap;">
+                <span class="oe_price text-success" t-esc="product.discounted_price" 
+                      t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+                <span itemprop="price" style="display:none;" t-esc="product.discounted_price" />
+                <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
+                <!-- Strikethrough the original price -->
+                <span class="text-danger oe_default_price ml-1 h5" style="text-decoration: line-through; white-space: nowrap;" 
+                      t-esc="product.list_price" 
+                      t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+            </span>
+            <!-- Show regular price if no discount -->
+            <span t-else="" class="oe_price" style="white-space: nowrap;" 
+                  t-esc="product.list_price" 
+                  t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+            <span itemprop="price" style="display:none;" t-esc="product.list_price" />
+            <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
+        </div>
+    </xpath>
+</template>
+
+<template id="product_price" inherit_id="website_sale.product_price">
+    <xpath expr="//h3[@class='css_editable_mode_hidden']" position="replace">
+        <h3 class="css_editable_mode_hidden">
+        <div class="product_price mb-1" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
+            <!-- Show discounted price if discount_percentage is present -->
+            <span t-if="product.discount_percentage &gt; 0" style="white-space: nowrap;">
+                <!-- <span class="oe_price text-success" t-esc="product.discounted_price" 
+                      t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" /> -->
+                <span itemprop="priceCurrency" class="oe_price text-success" t-esc="website.currency_id.symbol" />
+                <span itemprop="price" class="oe_price text-success" t-esc="product.discounted_price" />
+                
+                <span itemprop="priceCurrency" class="text-danger oe_default_price ml-1 h5" style="text-decoration: line-through; white-space: nowrap;" t-esc="website.currency_id.symbol" />
+                <span itemprop="price" class="text-danger oe_default_price ml-1 h5" style="text-decoration: line-through; white-space: nowrap;" t-esc="product.list_price" />
+                <!-- Strikethrough the original price -->
+                <!-- <span class="text-danger oe_default_price ml-1 h5" style="text-decoration: line-through; white-space: nowrap;" 
+                      t-esc="product.list_price" 
+                      t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" /> -->
+            </span>
+            <!-- Show regular price if no discount -->
+            <span t-else="" class="oe_price" style="white-space: nowrap;" 
+                  t-esc="product.list_price" 
+                  t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+            <span itemprop="price" style="display:none;" t-esc="product.list_price" />
+            <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
+            </div>
+        </h3>
+    </xpath>
+</template>
+
+
+</odoo>
